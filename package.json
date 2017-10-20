@@ -1,0 +1,18 @@
+{
+  "name": "velox-commons",
+  "version": "0.0.1",
+  "description": "Velox Commons Tools",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aetna-softwares/velox-commons.git"
+  },
+  "author": "Aetna Softwares",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aetna-softwares/velox-commons/issues"
+  },
+  "homepage": "https://github.com/aetna-softwares/velox-commons#readme"
+}

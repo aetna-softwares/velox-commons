@@ -171,4 +171,69 @@ class AsyncJob {
 AsyncJob.PARALLEL = "parallel" ;
 AsyncJob.SERIES = "series" ;
 
+
+function runIfP(condition, job){
+    if(condition){
+        return new Promise(job) ;
+    }else{
+        return new Promise(function(resolve){
+            process.nextTick(resolve) ;
+        }) ;
+    }
+}
+
+/**
+ * Run the job if the condition is true.
+ * 
+ * Callback receive job callback arguments
+ * 
+ * @example
+ *   //callback style
+ *   AsyncJob.runIf(a>1, function(cb){
+ *      //this is called only if a>1
+ *      somethingAsync(function(err, result){
+ *          if(err){ return cb(err) ;}
+ *          cb(null, result)
+ *      }) ;
+ *   }, function(err, result){
+ *      if(err){
+ *          //arg...
+ *      }
+ *      //go ahead...
+ *   }) ;
+ * 
+ *   //promise style
+ *   AsyncJob.runIf(a>1, (resolve, reject)=>{
+ *      //this is called only if a>1
+ *      somethingAsync().then((result)=>{
+ *          resolve(result);
+ *      }).catch((err)=>{
+ *          reject(err) ;
+ *      }) ;
+ *   }).then((result)=>{
+ *      //go ahead...
+ *   }).catch((err)=>{
+ *      //arg...
+ *   }) ;
+ * 
+ * @param condition {boolean} the condition to run the job
+ * @param job {function} the function to call
+ * @param [callback] {function} called when the job is finished or if the job is not called.
+ * @returns {Promise} return promise if callback is not given
+ */
+AsyncJob.runIf = function(condition, job, callback){
+    if(!callback){
+        return runIfP(condition, job) ;
+    }
+    if(condition){
+        job(function(err){
+            if(err){ return callback(err) ; }
+            callback.apply(null, arguments) ;
+        }) ;
+    }else{
+        callback() ;
+    }
+}
+
+
 module.exports = AsyncJob ;

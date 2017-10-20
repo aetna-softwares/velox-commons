@@ -39,7 +39,12 @@ class VeloxLogger {
      * @param {string} message message
      */
     debug(message){
-        this.logger.log(this._format(message)) ;
+        if(this.logger === console){
+            this.logger.log(this._format(message)) ;
+        } else {
+            this.logger.debug(this._format(message)) ;
+        }
+        
     }
 
     /**
