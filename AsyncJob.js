@@ -100,6 +100,7 @@ class AsyncJob {
                     let nextPromise = new Promise(func);
                     nextPromise.catch((err)=>{
                         this.jobError = err ;
+                        return;
                     }); 
                     return nextPromise ;
                 });
